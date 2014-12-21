@@ -1,7 +1,8 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Writing R code so that the program is able to cache the inverse 
+## of a square non-singular matrix.
 
-## Write a short comment describing this function
+## Function to create a special "matrix" that contains a 
+## list to perform caching operations on matrix inverse
 
 makeCacheMatrix <- function(x = matrix()) {
   inverse <- NULL
@@ -13,13 +14,23 @@ makeCacheMatrix <- function(x = matrix()) {
   setinverse <- function(i) inverse <<- i
   getinverse <- function() inverse
   
-  list <- 
+  list(set = set, get = get, setinverse = setinverse, getinverse = getinverse)
 
 }
 
 
-## Write a short comment describing this function
+## Function calculates the inverse of the special "matrix"
+## Returns the cached value if inverse is already cached
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
+  inverse <- x$getinverse()
+  if(!is.null(inverse)) {
+    message("getting cached data")
+    return(inverse)
+  }
+  mat <- x$get()
+  inverse <- solve(mat, ...)
+  x$setinverse(inverse)
+  inverse
 }
